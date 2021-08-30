@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'sfizio'
+
+Sfizio::Command.new(ARGV).run!
