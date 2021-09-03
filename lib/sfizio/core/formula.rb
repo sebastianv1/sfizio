@@ -13,6 +13,10 @@ module Sfizio
             "#{name} -- #{version}"
         end
 
+        def inspect
+            to_s
+        end
+
         def versioned_name
             "#{name}@#{version}"
         end

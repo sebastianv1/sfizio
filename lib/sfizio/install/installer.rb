@@ -1,4 +1,4 @@
-
+require 'logger'
 require 'sfizio/brewfile/brewfile'
 require 'sfizio/brew_cli/tap_info'
 require 'sfizio/brew_cli/tap_new'
@@ -12,58 +12,48 @@ module Sfizio
 
     class Installer
         attr_reader :brewfile_path
+        attr_reader :logger
 
-        def initialize(brewfile_path)
+        def initialize(brewfile_path, verbose = true)
             @brewfile_path = brewfile_path
+            @logger = Logger.new(STDOUT)
+            if verbose
+                @logger.level = Logger::DEBUG
+            else
+                @logger.level = Logger::INFO
+            end
         end
 
         def install!
+            logger.debug("Loading Brewfile from #{brewfile_path}")            
             brewfile = Sfizio::Brewfile.from_file(brewfile_path)
+            logger.debug("Evaluating brewfile with formulas:\n#{brewfile.formulas}")
             
-            local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH)
+            local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH, logger)
+            logger.info("Setting up enviornment...")
             unless local_tap.is_valid?
-                puts "Creating new local tap."
-                Sfizio::Brew::TapNew.tap_new!(TAP_PATH)
-                local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH)
+                logger.debug("Local tap at #{TAP_PATH} not found. Configuring tap.")
+                Sfizio::Brew::TapNew.tap_new!(TAP_PATH, logger)
             end
-
-            local_tap_info = local_tap.info
 
             brewfile.formulas.each do |f|
-                # Cleanup non-versioned existings formulas
-                puts "Looking for existing #{f.name} formula."
-                nonversion_info = Sfizio::Brew::Info.formula(f.name)
-                if nonversion_info.is_valid? && nonversion_info.is_installed?
-                    puts "Unlinking #{f.name}"
-                    Sfizio::Brew::Link.unlink(f.name)
+                logger.info("Installing formula #{f.name} at version #{f.version}")
+                formula_info = Sfizio::Brew::Info.formula(f.versioned_name, logger)
+                if formula_info.is_valid?
+                    unless formula_info.is_installed?
+                        logger.debug("Found local formula that isn't installed.")
+                        Sfizio::Brew::Install.formula(f.versioned_name, logger)
+                    end
+                else
+                    logger.debug("Didn't find formula info. Extracting into local tap at #{TAP_PATH}")
+                    Sfizio::Brew::Extract.formula(f.name, f.version, TAP_PATH, logger)
+                    Sfizio::Brew::Install.formula(f.versioned_name, logger)
                 end
                 
-                # Find all versioned taps already installed into local.
-                # Unlink any that are already installed.
-                puts "Looking for installed formulas in local tap"
-                tap_formulas = local_tap.formulas_with_name(f.name)
-                tap_formulas_info = tap_formulas.map { |f| [Sfizio::Brew::Info.formula(f.versioned_name), f] }
-                tap_formulas_info.select { |args| args[0].is_installed? }.each do |args|
-                    puts "Unlinking #{args[1]}"
-                    Sfizio::Brew::Link.unlink(args[1].versioned_name)
-                end
-
-                found_info, found_formula = tap_formulas_info.find { |args| args[1] == f }
-                
-                # Extract into our local tap if not found.
-                if !found_info
-                    puts "Extracting #{f} into local tap."
-                    Sfizio::Brew::Extract.formula(f.name, f.version, TAP_PATH)
-                    puts "Installing #{f.versioned_name}"
-                    Sfizio::Brew::Install.formula(f.versioned_name)
-                elsif !found_info.is_installed?
-                    puts "Installing #{found_formula}"
-                    Sfizio::Brew::Install.formula(found_formula.versioned_name)
-                end
-                puts "Linking #{f.versioned_name}"
-                Sfizio::Brew::Link.link(f.versioned_name, true)
+                Sfizio::Brew::Link.unlink(f.versioned_name, logger)
+                Sfizio::Brew::Link.link(f.versioned_name, true, logger)
             end
-            
+            logger.info("Successfully installed all formula!")
         end
     end
 end

@@ -6,12 +6,12 @@ Sfizio solves this by providing a familiar `Brewfile` for versioning your formul
 
 ## Using Sfizio
 
-Create a `Brewfile` in the root of your repo, and add formulas with the syntax: `brew "FORMULA_NAME", "FORMULA_VERSION"`.
+Create a `Brewfile` in the root of your repo, and add formulas with the syntax: `formula [name], [version]`.
 
 ```
-brew 'cloc', '1.90'
-brew 'sqlite', '3.36.0'
-brew 'python', '3.9'
+formula 'cloc', '1.90'
+formula 'sqlite', '3.36.0'
+formula 'python', '3.9'
 ```
 
 To install, run `sfizio install` instead of `brew install` or your previous installation command.
