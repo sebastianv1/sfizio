@@ -6,7 +6,7 @@ Sfizio solves this by providing a familiar `Brewfile` for versioning your formul
 
 ## Using Sfizio
 
-Create a `Brewfile` in the root of your repo, and add formulas with the syntax: `formula [name], [version]`.
+Create a `Brewfile` in the root of your repo, and add formulas with the syntax: `formula [name], [version], tap: [source]`.
 
 ```
 formula 'cloc', '1.90'
