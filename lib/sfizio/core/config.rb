@@ -1,0 +1,2 @@
+HOMEBREW_PREFIX = ENV['HOMEBREW_PREFIX'].freeze
+HOMEBREW_LINKED_KEGS = ("#{HOMEBREW_PREFIX}/var/homebrew/linked").freeze

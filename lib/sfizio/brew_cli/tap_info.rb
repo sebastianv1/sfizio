@@ -16,7 +16,6 @@ module Sfizio
             def self.tap_path(tap_path, logger)
                 stdout, stderr, status = Open3.capture3("brew tap-info #{tap_path} --json")
                 raise stderr if status.exitstatus == 1 || stdout.empty?
-                logger.debug(stdout) if stdout
                 info = JSON.parse(stdout)[0]
                 is_valid = info['installed'] == true
                 TapInfo.new(info, is_valid)

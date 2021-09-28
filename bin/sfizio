@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'sfizio'
+def configure_brew_env
+  brew_shellenv = `brew shellenv`
+  ENV['HOMEBREW_PREFIX'] = brew_shellenv.match("HOMEBREW_PREFIX=\"(.*)\";").captures.first
+end
 
+configure_brew_env
+raise 'HOMEBREW_PREFIX not set' unless ENV['HOMEBREW_PREFIX']
+
+require 'sfizio'
 Sfizio::Command.new(ARGV).run!

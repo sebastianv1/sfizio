@@ -5,6 +5,7 @@ module Sfizio
   require "sfizio/brewfile/brewfile"
   require "sfizio/brewfile/DSL"
   require "sfizio/core/formula"
+  require "sfizio/core/config"
   require "sfizio/install/installer"
 
   require "sfizio/brew_cli/tap_info"

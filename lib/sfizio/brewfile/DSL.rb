@@ -3,8 +3,8 @@ require 'sfizio/brewfile/brewfile'
 
 module Sfizio
     class Brewfile
-        def formula(name, version)
-            formula = Sfizio::Formula.new(name, version)
+        def formula(name, version, tap: nil)
+            formula = Sfizio::Formula.new(name, version, tap)
             @formulas << formula
         end
     end

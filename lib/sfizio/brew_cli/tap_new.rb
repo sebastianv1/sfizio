@@ -7,7 +7,6 @@ module Sfizio
             def self.tap_new!(tap_path, logger)
                 stdout, stderr, status = Open3.capture3("brew tap-new #{tap_path} --no-git")
                 raise "#{stderr}" if status.exitstatus == 1
-                logger.debug(stdout) if stdout
             end
         end
     end
