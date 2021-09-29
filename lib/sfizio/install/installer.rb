@@ -36,7 +36,7 @@ module Sfizio
                     Sfizio::Brew::Link.unlink(linked, logger)
                 end
 
-                logger.info("Installing formula #{f.name} version #{f.version}").colorize(:green)
+                logger.info("Installing formula #{f.name} version #{f.version}".colorize(:green))
                 formula_info = Sfizio::Brew::Info.formula(f.local_tap_path, logger)
                 if formula_info.is_valid?
                     unless formula_info.is_installed?
