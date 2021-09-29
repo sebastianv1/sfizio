@@ -1,4 +1,5 @@
 require 'logger'
+require 'colorize'
 require 'sfizio/brewfile/brewfile'
 require 'sfizio/brew_cli/tap_info'
 require 'sfizio/brew_cli/tap_new'
@@ -23,7 +24,7 @@ module Sfizio
             logger.debug("Evaluating brewfile with formulas:\n#{brewfile.formulas.join("\n")}")
             
             local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH, logger)
-            logger.info("Setting up enviornment...")
+            logger.info("🍻 Setting up environment...")
             unless local_tap.is_valid?
                 logger.debug("Local tap at #{TAP_PATH} not found. Configuring tap.")
                 Sfizio::Brew::TapNew.tap_new!(TAP_PATH, logger)
@@ -35,7 +36,7 @@ module Sfizio
                     Sfizio::Brew::Link.unlink(linked, logger)
                 end
 
-                logger.info("Installing formula #{f.name} at version #{f.version}")
+                logger.info("Installing formula #{f.name} version #{f.version}").colorize(:green)
                 formula_info = Sfizio::Brew::Info.formula(f.local_tap_path, logger)
                 if formula_info.is_valid?
                     unless formula_info.is_installed?
@@ -51,7 +52,7 @@ module Sfizio
                     Sfizio::Brew::Install.formula(f.local_tap_path, logger)
                 end
             end
-            logger.info("Successfully installed all formula!")
+            logger.info("🍻 Successfully installed all formula!")
         end
     end
 end
