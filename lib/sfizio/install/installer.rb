@@ -11,25 +11,15 @@ module Sfizio
     TAP_PATH = "sfizio/local-tap"
 
     class Installer
-        attr_reader :brewfile_path
+        attr_reader :brewfile
         attr_reader :logger
 
-        def initialize(brewfile_path, verbose: true)
-            @brewfile_path = brewfile_path
-            @logger = Logger.new(STDOUT)
-            if verbose
-                @logger.level = Logger::DEBUG
-            else
-                @logger.level = Logger::INFO
-            end
-            @logger.formatter = proc do |severity, datetime, progname, msg|
-                "#{msg}\n"
-            end
+        def initialize(brewfile, logger)
+            @brewfile = brewfile
+            @logger = logger
         end
 
         def install!
-            logger.debug("Loading Brewfile from #{brewfile_path}")            
-            brewfile = Sfizio::Brewfile.from_file(brewfile_path)
             logger.debug("Evaluating brewfile with formulas:\n#{brewfile.formulas.join("\n")}")
             
             local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH, logger)
