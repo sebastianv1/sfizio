@@ -1,5 +1,3 @@
-require "sfizio/version"
-
 module Sfizio
   require "sfizio/command"
   require "sfizio/brewfile/brewfile"

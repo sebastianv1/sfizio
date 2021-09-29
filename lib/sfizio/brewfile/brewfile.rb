@@ -14,5 +14,11 @@ module Sfizio
             brewfile.instance_eval(contents)
             brewfile
         end
+
+        def self.from_string(str)
+            brewfile = Brewfile.new([])
+            brewfile.instance_eval(str)
+            brewfile
+        end
     end
 end

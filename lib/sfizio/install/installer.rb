@@ -14,7 +14,7 @@ module Sfizio
         attr_reader :brewfile_path
         attr_reader :logger
 
-        def initialize(brewfile_path, verbose = true)
+        def initialize(brewfile_path, verbose: true)
             @brewfile_path = brewfile_path
             @logger = Logger.new(STDOUT)
             if verbose

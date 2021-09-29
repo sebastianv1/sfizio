@@ -13,7 +13,7 @@ module Sfizio
         end
 
         def to_s
-            "#{name} -- #{version}"
+            "#{name} -- #{version} from: #{tap}"
         end
 
         def inspect
@@ -41,7 +41,7 @@ module Sfizio
         end
 
         def ==(other)
-            name == other.name && version == other.version
+            name == other.name && version == other.version && tap == other.tap
         end
     end
 end
