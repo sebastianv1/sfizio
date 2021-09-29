@@ -12,4 +12,5 @@ module Sfizio
   require "sfizio/brew_cli/info"
   require "sfizio/brew_cli/install"
   require "sfizio/brew_cli/extract"
+  require "sfizio/brew_cli/update"
 end

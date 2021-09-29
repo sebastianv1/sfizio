@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Sfizio::Installer, mock_install:true do
-  let(:installer) { described_class.new(brewfile, test_logger) }
+  let(:installer) { described_class.new(brewfile, false, test_logger) }
   let(:test_logger) { Logger.new('/dev/null') }
 
   context 'when configuring the local tap' do

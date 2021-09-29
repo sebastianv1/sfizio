@@ -7,6 +7,7 @@ require 'sfizio/brew_cli/info'
 require 'sfizio/brew_cli/link'
 require 'sfizio/brew_cli/install'
 require 'sfizio/brew_cli/extract'
+require 'sfizio/brew_cli/update'
 
 module Sfizio
     TAP_PATH = "sfizio/local-tap"
@@ -14,9 +15,11 @@ module Sfizio
     class Installer
         attr_reader :brewfile
         attr_reader :logger
+        attr_reader :update
 
-        def initialize(brewfile, logger)
+        def initialize(brewfile, update, logger)
             @brewfile = brewfile
+            @update = update
             @logger = logger
         end
 
@@ -29,6 +32,8 @@ module Sfizio
                 logger.debug("Local tap at #{TAP_PATH} not found. Configuring tap.")
                 Sfizio::Brew::TapNew.tap_new!(TAP_PATH, logger)
             end
+
+            Sfizio::Brew::Update.run if update
 
             brewfile.formulas.each do |f|
                 f.fuzzy_linked_kegs.each do |linked|
