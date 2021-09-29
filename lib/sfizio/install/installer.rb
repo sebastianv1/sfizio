@@ -27,13 +27,16 @@ module Sfizio
             logger.debug("Evaluating brewfile with formulas:\n#{brewfile.formulas.join("\n")}")
             
             local_tap = Sfizio::Brew::TapInfo.tap_path(TAP_PATH, logger)
-            logger.info("🍻 Setting up environment...")
+            logger.info("🍻 Setting up environment")
             unless local_tap.is_valid?
                 logger.debug("Local tap at #{TAP_PATH} not found. Configuring tap.")
                 Sfizio::Brew::TapNew.tap_new!(TAP_PATH, logger)
             end
 
-            Sfizio::Brew::Update.run if update
+            if update
+                logger.info("🍻 Updating taps")
+                Sfizio::Brew::Update.run
+            end
 
             brewfile.formulas.each do |f|
                 f.fuzzy_linked_kegs.each do |linked|
