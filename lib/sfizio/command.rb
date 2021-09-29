@@ -24,7 +24,7 @@ module Sfizio
                 logger.debug("Loading Brewfile from #{brewfile_path}")
                 brewfile = Sfizio::Brewfile.from_file(brewfile_path)
                 update = argv.include?("--update")
-                Sfizio::Installer.new(brewfile, logger).install!
+                Sfizio::Installer.new(brewfile, update, logger).install!
             when "clean"
                 puts "TODO"
             when "help"
