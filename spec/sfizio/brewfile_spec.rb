@@ -7,13 +7,17 @@ describe Sfizio::Brewfile do
       formula 'python', '1.0'
       formula 'cloc', '1.90_2'
       formula 'outer', '0.23.1', tap: 'outside_world'
+      formula 'sqlite@3.0'
+      formula 'sqlite@3.1', tap: 'outside_world'
       EOS
 
       subject = Sfizio::Brewfile.from_string(contents)
       formulas = [
         Sfizio::Formula.new('python', '1.0', nil),
         Sfizio::Formula.new('cloc', '1.90_2', nil),
-        Sfizio::Formula.new('outer', '0.23.1', 'outside_world')
+        Sfizio::Formula.new('outer', '0.23.1', 'outside_world'),
+        Sfizio::Formula.new('sqlite@3.0', nil, nil),
+        Sfizio::Formula.new('sqlite@3.1', nil, 'outside_world')
       ]
       expect(subject.formulas).to eq formulas
     end
