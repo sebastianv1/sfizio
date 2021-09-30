@@ -16,13 +16,10 @@ formula 'python', '3.9'
 
 To install, run `sfizio install` instead of `brew install` or your previous installation command.
 
-## TODO
+## Next Steps & Contributing
 This project is still in its infancy. Next steps for this project include:
 * Creating a `Brewfile.lock`. Currently Sfizio only supports specific verions and cleans up state before each installation. This means that we may `unlink` and then `link` the same version again in each release if nothing has changed. Although this is fast, it's not optimal.
-* Add verbose output options.
-* Configure proper CLI commands.
-    - Need a `help` option
-    - Need a `cleanup` option
+* Configure proper CLI commands. Existing implementation
+    - Include a `cleanup` option
 * Properly distribute this with RubyGems.
-
 
