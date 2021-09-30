@@ -21,7 +21,11 @@ module Sfizio
         end
 
         def versioned_name
-            "#{name}@#{version}"
+            if version
+                "#{name}@#{version}"
+            else
+                "#{name}"
+            end
         end
 
         def source_path
