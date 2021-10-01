@@ -8,13 +8,25 @@ Sfizio solves this by providing a familiar `Brewfile` for versioning your formul
 
 Create a `Brewfile` in the root of your repo, and add formulas with the syntax: `formula [name], [version], tap: [source]`.
 
-```
+```ruby
 formula 'cloc', '1.90'
 formula 'sqlite', '3.36.0'
 formula 'python', '3.9'
 ```
 
-To install, run `sfizio install` instead of `brew install` or your previous installation command.
+To install, run `sfizio install` instead of `brew install` or your previous installation script.
+
+You can also specify which taps Homebrew should fetch formula from by including a `tap` param.
+```ruby
+formula 'xcparse', '2.2.1', tap: 'chargepoint/xcparse'
+```
+
+Sfizio will also call `brew tap` for any taps specified in your Brewfile
+```ruby
+tap 'internal/tap', url: 'git-source'
+
+formula 'cloc', '1.90', tap: 'internal/tap'
+```
 
 ## Next Steps & Contributing
 This project is still in its infancy. Next steps for this project include:
