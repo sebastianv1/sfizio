@@ -7,5 +7,10 @@ module Sfizio
             formula = Sfizio::Formula.new(name, version, tap)
             @formulas << formula
         end
+
+        def tap(name, url: nil)
+            tap = Sfizio::Tap.new(name, url)
+            @taps << tap
+        end
     end
 end

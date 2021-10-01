@@ -10,8 +10,6 @@ require 'sfizio/brew_cli/extract'
 require 'sfizio/brew_cli/update'
 
 module Sfizio
-    TAP_PATH = "sfizio/local-tap"
-
     class Installer
         attr_reader :brewfile
         attr_reader :logger
@@ -31,6 +29,11 @@ module Sfizio
             unless local_tap.is_valid?
                 logger.debug("Local tap at #{TAP_PATH} not found. Configuring tap.")
                 Sfizio::Brew::TapNew.tap_new!(TAP_PATH, logger)
+            end
+
+            brewfile.taps.each do |t|
+                logger.info("Tapping #{t.name}")
+                Sfizio::Brew::Tap.tap(t.name, t.url)
             end
 
             if update

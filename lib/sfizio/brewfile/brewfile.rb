@@ -3,9 +3,11 @@ require 'sfizio/core/formula'
 module Sfizio
     class Brewfile
         attr_accessor :formulas
+        attr_accessor :taps
 
-        def initialize(formulas = [])
+        def initialize(formulas = [], taps = [])
             @formulas = formulas
+            @taps = taps
         end
 
         def self.from_file(path)
