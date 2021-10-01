@@ -4,6 +4,8 @@ describe Sfizio::Brewfile do
   context "with Brewfile sample" do
     it 'parses contents' do
       contents = <<~EOS
+      tap 'local'
+      tap 'outside', url: 'git@git-tap'
       formula 'python', '1.0'
       formula 'cloc', '1.90_2'
       formula 'outer', '0.23.1', tap: 'outside_world'
@@ -20,6 +22,7 @@ describe Sfizio::Brewfile do
         Sfizio::Formula.new('sqlite@3.1', nil, 'outside_world')
       ]
       expect(subject.formulas).to eq formulas
+      expect(subject.taps).to eq [Sfizio::Tap.new('local', nil), Sfizio::Tap.new('outside', 'git@git-tap')]
     end
   end
 

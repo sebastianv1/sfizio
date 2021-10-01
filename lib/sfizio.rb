@@ -3,8 +3,10 @@ module Sfizio
   require "sfizio/brewfile/brewfile"
   require "sfizio/brewfile/DSL"
   require "sfizio/core/formula"
+  require "sfizio/core/tap"
   require "sfizio/core/config"
   require "sfizio/install/installer"
+  require "sfizio/clean/clean"
 
   require "sfizio/brew_cli/tap_info"
   require "sfizio/brew_cli/tap_new"
@@ -13,4 +15,6 @@ module Sfizio
   require "sfizio/brew_cli/install"
   require "sfizio/brew_cli/extract"
   require "sfizio/brew_cli/update"
+  require "sfizio/brew_cli/tap"
+  require "sfizio/brew_cli/uninstall"
 end

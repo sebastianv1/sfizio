@@ -45,4 +45,14 @@ describe Sfizio::Installer do
       installer.install!
     end
   end
+
+  context 'when installing with taps' do
+    let(:brewfile) { Sfizio::Brewfile.new([], [Sfizio::Tap.new('local-tap', nil)]) }
+    let(:installer) { described_class.new(brewfile, false, test_logger) }
+    it 'taps those in Brewfile' do
+      allow(Sfizio::Brew::TapInfo).to receive(:tap_path).and_return(Sfizio::Brew::TapInfo.new({}, true))
+      expect(Sfizio::Brew::Tap).to receive(:tap).with('local-tap', nil).and_return(nil)
+      installer.install!
+    end
+  end
 end

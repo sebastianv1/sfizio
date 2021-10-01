@@ -3,12 +3,18 @@ require 'sfizio/brew_cli/tap_info'
 module Sfizio
     class Clean
         attr_reader :tap_path
-        def initialize(tap_path)
+        attr_reader :brewfile
+        def initialize(tap_path, brewfile)
             @tap_path = tap_path
+            @brewfile = brewfile
         end
 
         def clean!
-            puts "TODO"
+            brewfile.formulas.each do |f|
+                Sfizio::Brew::Uninstall.formula(f.local_tap_path)
+            end
+
+            Sfizio::Brew::Tap.untap(tap_path, force: true)
         end
     end
 end

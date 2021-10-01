@@ -1,6 +1,8 @@
 require 'sfizio/install/installer'
 
 module Sfizio
+    TAP_PATH = "sfizio/local-tap"
+
     class Command
         attr_reader :argv
 
@@ -26,7 +28,7 @@ module Sfizio
                 update = argv.include?("--update")
                 Sfizio::Installer.new(brewfile, update, logger).install!
             when "clean"
-                puts "TODO"
+                Sfizio::Clean.new(TAP_PATH, brewfile).clean!
             when "help"
                 puts "sfizio [command] <option>\n\nCommands:\ninstall, clean\n\nOptions:\n-v Verbose output\n--update Updates formulas. Only supports the install command."
             else
