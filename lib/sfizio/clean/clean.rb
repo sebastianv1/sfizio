@@ -10,8 +10,8 @@ module Sfizio
         end
 
         def clean!
-            brewfile.formulas.each do |f|
-                Sfizio::Brew::Uninstall.formula(f.local_tap_path)
+            if brewfile
+                brewfile.formulas.each { |f| Sfizio::Brew::Uninstall.formula(f.local_tap_path) }
             end
 
             Sfizio::Brew::Tap.untap(tap_path, force: true)

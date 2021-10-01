@@ -28,6 +28,11 @@ module Sfizio
                 update = argv.include?("--update")
                 Sfizio::Installer.new(brewfile, update, logger).install!
             when "clean"
+                brewfile_path = File.join(Dir.pwd, 'Brewfile').to_s
+                if File.exist?(brewfile_path)
+                    logger.debug("Loading Brewfile from #{brewfile_path}")
+                    brewfile = Sfizio::Brewfile.from_file(brewfile_path)
+                end
                 Sfizio::Clean.new(TAP_PATH, brewfile).clean!
             when "help"
                 puts "sfizio [command] <option>\n\nCommands:\ninstall, clean\n\nOptions:\n-v Verbose output\n--update Updates formulas. Only supports the install command."
