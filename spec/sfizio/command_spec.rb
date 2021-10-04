@@ -18,7 +18,8 @@ describe Sfizio::Command do
       command.run!
     end
 
-    it 'fails unknown commands' do      
+    it 'fails unknown commands' do    
+      allow($stdout).to receive(:write)  
       command = described_class.new(['unknown'])
       begin
         command.run!
