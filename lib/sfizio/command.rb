@@ -33,7 +33,7 @@ module Sfizio
                     logger.debug("Loading Brewfile from #{brewfile_path}")
                     brewfile = Sfizio::Brewfile.from_file(brewfile_path)
                 end
-                Sfizio::Clean.new(TAP_PATH, brewfile).clean!
+                Sfizio::Clean.new(TAP_PATH, brewfile, logger).clean!
             when "help"
                 puts "sfizio [command] <option>\n\nCommands:\ninstall, clean\n\nOptions:\n-v Verbose output\n--update Updates formulas. Only supports the install command."
             else
