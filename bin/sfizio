@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 def configure_brew_env
-  brew_shellenv = `brew shellenv`
-  ENV['HOMEBREW_PREFIX'] = brew_shellenv.match("HOMEBREW_PREFIX=\"(.*)\";").captures.first
+  ENV['HOMEBREW_PREFIX'] = `brew --prefix`
 end
 
 configure_brew_env
