@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def configure_brew_env
-  ENV['HOMEBREW_PREFIX'] = `brew --prefix`
+  ENV['HOMEBREW_PREFIX'] = `brew --prefix`.chomp
 end
 
 configure_brew_env
