@@ -28,6 +28,10 @@ module Sfizio
             end
         end
 
+        def unversioned_name
+            name.split('@').first
+        end
+
         def source_path
             if tap
                 return "#{tap}/#{name}"
@@ -41,7 +45,7 @@ module Sfizio
         end
 
         def fuzzy_linked_kegs
-            Dir.glob("#{HOMEBREW_LINKED_KEGS}/*").select { |p| p.match("#{name}@?") }.map { |p| Pathname.new(p).basename.to_s }
+            Dir.glob("#{HOMEBREW_LINKED_KEGS}/*").select { |p| p.match("#{unversioned_name}@?") }.map { |p| Pathname.new(p).basename.to_s }
         end
 
         def ==(other)

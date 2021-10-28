@@ -36,6 +36,23 @@ describe Sfizio::Installer do
     end
   end
 
+  context 'when installing a versioned formula with existing links' do
+    let(:cloc_formula) { Sfizio::Formula.new('cloc@1.9.0', nil, nil ) }
+    let(:brewfile) { Sfizio::Brewfile.new([cloc_formula]) }
+    let(:installer) { described_class.new(brewfile, false, test_logger) }
+
+    it 'unlinks all existing linked formulae' do
+      allow(Sfizio::Brew::Info).to receive(:formula).and_return(Sfizio::Brew::Info.new({"installed" => []}, true))
+      allow(Sfizio::Brew::Install).to receive(:formula).and_return(nil)
+
+      allow(Sfizio::Brew::TapInfo).to receive(:tap_path).and_return(Sfizio::Brew::TapInfo.new({}, true))
+      allow(Dir).to receive(:glob).and_return(["cloc", "cloc@1.88"])
+      expect(Sfizio::Brew::Link).to receive(:unlink).twice.and_return(nil)
+
+      installer.install!
+    end
+  end
+
   context 'when installing' do
     let(:brewfile) { Sfizio::Brewfile.new([]) }
     let(:installer) { described_class.new(brewfile, true, test_logger) }
