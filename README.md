@@ -32,4 +32,5 @@ formula 'cloc', '1.90', tap: 'internal/tap'
 This project is still in its infancy. Next steps for this project include:
 * Creating a `Brewfile.lock`. Currently Sfizio only supports specific verions and cleans up state before each installation. This means that we may `unlink` and then `link` the same version again in each release if nothing has changed. Although this is fast, it's not optimal.
 * Configure proper CLI commands.
+* Turn into a proper homebrew extension command.
 
