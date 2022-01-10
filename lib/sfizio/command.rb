@@ -12,8 +12,8 @@ module Sfizio
 
         def run!
             logger = Logger.new(STDOUT)
-            logger.level = Logger::DEBUG if argv.include?("-v")
             logger.level = Logger::INFO
+            logger.level = Logger::DEBUG if argv.include?("-v")
             logger.formatter = proc do |severity, datetime, progname, msg|
                 "#{msg}\n"
             end
